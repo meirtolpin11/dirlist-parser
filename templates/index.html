@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>DevExtreme Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min.js"%3E%3C/script%3E'))</script>
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.common.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.dark.css" />
+    <script src="https://cdn3.devexpress.com/jslib/21.1.5/js/dx.all.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css" /> -->
+</head>
+
+    <!-- bootstrap includes --> 
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body class="dx-viewport">
+  <div class="container" style="width: 100%;">
+  
+  <table class="table" style="width: 100%;">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 20%;">#</th>
+      <th scope="col" style="width: 80%;">#</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th> 
+        <div class="demo-container">
+          <div class="form">
+              <div id="simple-treeview"></div>
+          </div>
+        </div> 
+      </th>
+      <td>One of three columns</td>
+    
+    </tr>
+    
+  </tbody>
+
+
+</body>
+<script>
+  $(function(){
+      $("#simple-treeview").dxTreeView({ 
+
+          createChildren: function(parent) {
+              var parentId = parent ? parent.itemData.id : "";
+
+              return $.ajax({
+                  url: "http://127.0.0.1:5000/get_folder_children",
+                  dataType: "json",
+                  data: { parentId: parentId }
+              });
+          },
+          onItemClick: function (e) {
+            console.log(e.itemData.text);
+          },
+          rootValue: "",
+          dataStructure: "plain",
+          height: 500
+      });
+  });
+</script>
+</html>
