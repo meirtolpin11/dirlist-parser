@@ -49,17 +49,20 @@
 
 </body>
 <script>
+
+  latests_fetched_files = null;
+
   $(function(){
       $("#simple-treeview").dxTreeView({ 
 
           createChildren: function(parent) {
               var parentId = parent ? parent.itemData.id : "";
-
-              return $.ajax({
+              latests_fetched_files = $.ajax({
                   url: "http://127.0.0.1:5000/get_folder_children",
                   dataType: "json",
                   data: { parentId: parentId }
-              });
+              })
+              return latests_fetched_files;
           },
           onItemClick: function (e) {
             console.log(e.itemData.text);

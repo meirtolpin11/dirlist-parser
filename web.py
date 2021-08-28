@@ -9,7 +9,18 @@ app = Flask(__name__)
 def index():
 	parent_id = request.args.get("parentId")
 	if parent_id is None or len(parent_id) == 0:
-		parent_id = 'C:'
+		
+		drives = DirListInfo.select(DirListInfo.entity_drive).distinct().execute()
+		children_json = []
+		for drive in drives:
+			children_json.append({
+				"id": drive.entity_drive + ":",
+				"parentId": None,
+				"text": drive.entity_drive + ":\\",
+				"hasItems": True
+				})
+
+		return jsonify(children_json)
 
 
 	# quering all the subfolder and files inside the parent folder 
@@ -20,7 +31,7 @@ def index():
 	for child in children:
 		children_json.append({
 			"id": ''.join([child.entity_root_path, child.entity_name]),
-			"parentId": parent_id if parent_id != 'C:' else None,
+			"parentId": parent_id,
 			"text": child.entity_name,
 			"hasItems": True if child.entity_type == 'DIR' else False
 			})
