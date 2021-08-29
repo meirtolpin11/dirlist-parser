@@ -40,7 +40,11 @@
           </div>
         </div> 
       </th>
-      <td>One of three columns</td>
+      <td>
+        <table class="table" id="files_table" style="background-color: transparent;">
+
+        </table>
+      </td>
     
     </tr>
     
@@ -60,8 +64,16 @@
               latests_fetched_files = $.ajax({
                   url: "http://127.0.0.1:5000/get_folder_children",
                   dataType: "json",
-                  data: { parentId: parentId }
+                  data: { parentId: parentId },
+                  complete: function (data) {
+                      try {
+                        update_files_tables(latests_fetched_files)
+                      } catch (e) {
+                        console.log(e)
+                      }
+                  }
               })
+              
               return latests_fetched_files;
           },
           onItemClick: function (e) {
@@ -72,5 +84,30 @@
           height: 500
       });
   });
+
+  function update_files_tables(latests_fetched_files) {
+    $("#files_table tr").remove(); 
+    console.log(latests_fetched_files)
+    for ( var i = 0; i < latests_fetched_files.responseJSON.length; i++ ) {
+      var tr = document.getElementById("files_table").insertRow(-1);
+      var td = document.createElement("td");
+      td.innerHTML = latests_fetched_files.responseJSON[i]["fullPath"];
+      tr.appendChild(td);
+
+      var td = document.createElement("td");
+      td.innerHTML = latests_fetched_files.responseJSON[i]["text"];
+      tr.appendChild(td);
+
+      var td = document.createElement("td");
+      td.innerHTML = latests_fetched_files.responseJSON[i]["size"];
+      tr.appendChild(td);
+
+      var td = document.createElement("td");
+      td.innerHTML = latests_fetched_files.responseJSON[i]["date"];
+      tr.appendChild(td);
+
+    }
+  }
+
 </script>
 </html>
