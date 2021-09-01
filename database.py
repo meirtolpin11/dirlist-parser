@@ -17,9 +17,13 @@ class DirListInfo(BaseModel):
 	entity_name = CharField()
 	entity_size = BigIntegerField()
 
+class StarredFiles(BaseModel):
+	computer_id = CharField()
+	entity_id = IntegerField()
+
 def create_tables():
     with database:
-        database.create_tables([DirListInfo])
+        database.create_tables([DirListInfo, StarredFiles])
 
 if __name__ == '__main__':
 	create_tables()

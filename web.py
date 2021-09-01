@@ -44,6 +44,15 @@ def index():
 
 	return jsonify(children_json)
 
+@app.route("/add_file_to_starred")
+def add_file_to_cart():
+	computer_id = request.args.get("computer_id")
+	entity_id = request.args.get("entity_id")
+
+	StarredFiles().insert(computer_id = computer_id, entity_id = entity_id).execute()
+
+	return "OK"
+
 @app.route('/')
 def test():
 	return render_template('index.html')
