@@ -53,8 +53,17 @@ def add_file_to_cart():
 
 	return "OK"
 
+@app.route("/get_starred_files")
+def get_starred_files():
+	computer_id = request.args.get("computer_id")
+
+	files = StarredFiles().select(DirListInfo, StarredFiles).join(DirListInfo,
+		 on=(DirListInfo.computer_id == StarredFiles.computer_id)).where(DirListInfo.computer_id == computer_id).execute()
+
+	# create a json and return it
+
 @app.route('/')
-def test():
+def main():
 	return render_template('index.html')
 
 app.run()
