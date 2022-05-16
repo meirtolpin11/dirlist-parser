@@ -1,2 +1,1 @@
-# dirlist-parser
-Windows DIRList parser and viewer
+See `DEV` branch
